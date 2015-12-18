@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+<meta http-equiv="X-UA-Compatible" content="IE=9" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2016淘宝最新的省市区SQL数据包及以此为基础的各种jQuery插件</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<link rel="stylesheet" href="css/bootstrap.min.css"/>
+<link rel="stylesheet" href="css/jquery.areapanel.css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/area.data.js"></script>
+<script type="text/javascript" src="js/jquery.region.js"></script>
+<script type="text/javascript" src="js/jquery.areapanel.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading"><h4 class="panel-title">城市单选器</h4></div>
+            <div class="panel-body form-horizontal">
+                <div class="form-group ">
+                    <label class="col-md-2">选择城市</label>
+                    <div class="region col-md-9">
+                        <div class="form-inline">
+                            <select class="form-control" name="province_id"></select>
+                            <select class="form-control" name="city_id"></select>
+                            <select class="form-control" name="district_id"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-2">传入参数默认显示</label>
+                    <div class="region col-md-9">
+                        <div class="form-inline">
+                            <select class="form-control" name="province_id"  data-current="410000"></select>
+                            <select class="form-control" name="city_id" data-current="410100" ></select>
+                            <select class="form-control" name="district_id" data-current="410105"></select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading"><h4 class="panel-title">城市多选器</h4></div>
+            <div class="panel-body form-horizontal">
+                <div class="form-group ">
+                    <label class="col-md-2">请选择城市</label>
+                    <div class="region col-md-9">
+                        <a href="javascript:;" id="multiple-region">选择城市</a>
+                        <div id="target">
+                            <h4>当前选择的城市名称</h4>
+                            <p id="city-names" class="alert alert-info"></div>
+                            <h4>当前选择的城市</h4>
+                            <textarea name="city_ids" id="city_ids" class="form-control"></textarea>
+                            <h4>需要锁定的城市</h4>
+                            <textarea name="city_ids" id="lock_ids" class="form-control">320400,320500,320600,320700,320800,320900,321000,321100,321200,321300,330100,330200,330300,330400,330500,330600,330700,330800,330900,331000,331100,340100,340200,340300,340400,340500,340600,340700,340800,341000,341100</textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script type="text/javascript">
+//单选城市的用法
+$(".region").region()
+
+//多选城市的用法
+$("#multiple-region").click(function(){
+  //如果已经存在了已选择的城市，只需把这些城市ID拼成数组传入到entity即可
+  var current_cities = explode(',',$("#city_ids").val());
+  //如果需要在选择框里锁定城市（这种需求很容易有，比如宝贝不能到达的城市就不能选择，这个时候就需要锁定城市）。传入到other_entity
+  var lock_cities = explode(',',$("#lock_ids").val());
+  $(this).areapanel({other_entity:lock_cities,entity:current_cities},function(data){
+      // data.city_names[字符串],data.city_ids[数组]
+      $("#city-names").html(data.city_names);
+      $("#city_ids").val(implode(',',data.city_ids));
+  });
+})
+
+
+
+
+//并不需要以下函数，只是为了方便处理，你可以任意处理areapanel返回的数组
+function explode(delimiter, string, limit) {
+  //  discuss at: http://phpjs.org/functions/explode/
+  // original by: Kevin van Zonneveld (http://kevin.vanzonneveld.net)
+  //   example 1: explode(' ', 'Kevin van Zonneveld');
+  //   returns 1: {0: 'Kevin', 1: 'van', 2: 'Zonneveld'}
+
+  if (arguments.length < 2 || typeof delimiter === 'undefined' || typeof string === 'undefined') return null;
+  if (delimiter === '' || delimiter === false || delimiter === null) return false;
+  if (typeof delimiter === 'function' || typeof delimiter === 'object' || typeof string === 'function' || typeof string ===
+    'object') {
+    return {
+      0: ''
+    };
+  }
+  if (delimiter === true) delimiter = '1';
+
+  // Here we go...
+  delimiter += '';
+  string += '';
+
+  var s = string.split(delimiter);
+
+  if (typeof limit === 'undefined') return s;
+
+  // Support for limit
+  if (limit === 0) limit = 1;
+
+  // Positive limit
+  if (limit > 0) {
+    if (limit >= s.length) return s;
+    return s.slice(0, limit - 1)
+      .concat([s.slice(limit - 1)
+        .join(delimiter)
+      ]);
+  }
+
+  // Negative limit
+  if (-limit >= s.length) return [];
+
+  s.splice(s.length + limit);
+  return s;
+}
+function implode(glue, pieces) {
+  var i = '',
+    retVal = '',
+    tGlue = '';
+  if (arguments.length === 1) {
+    pieces = glue;
+    glue = '';
+  }
+  if (typeof pieces === 'object') {
+    if (Object.prototype.toString.call(pieces) === '[object Array]') {
+      return pieces.join(glue);
+    }
+    for (i in pieces) {
+      retVal += tGlue + pieces[i];
+      tGlue = glue;
+    }
+    return retVal;
+  }
+  return pieces;
+}
+</script>

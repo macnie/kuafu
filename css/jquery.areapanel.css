@@ -1,0 +1,27 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 2015-7-14, 2015-7-14 16:02:43
+    Author     : Macnie
+*/
+.areapanel-list li{margin:5px 0px;padding:5px 10px}
+    .areapanel-list li.even{background:#eee}
+.gcity{float:left;margin-right:20px;font-weight: bold;}
+.ecity{float:left;margin-right: 15px;position: relative;}
+    .ecity span i{color:#999;font-size:10px;margin-left:5px;cursor: pointer;}
+    .ecity .gareas{white-space: nowrap;margin-right: 3px;padding: 4px 4px 1px;display: inline-block;position: relative;height: 30px;}
+    .check-num {color: #F60;margin:0px 5px;font-size: 12px;letter-spacing: -1px;}
+    
+    
+    .areapanel-cities {background-color: #FFFEC6;position: absolute;float: right;border: solid 1px #f7e4a5;z-index: 20000;top: 28px;left: 0;width: 404px;display: none;white-space: wrap;}
+    .areapanel-cities span{width:48%;float:left;display:block}
+    
+    .show-city-pop .areapanel-cities {padding:10px;display: block;z-index: 55900;}
+    .show-city-pop .gareas {background-color: #FFFEC6;border: solid 1px #f7e4a5;border-bottom: solid 1px #FFFEC6;z-index: 56000;}
+
+    .areapanel-cities-close{position: absolute;bottom:10px;right:10px}
+#delivery-cities .help-block{margin-left:0px}
+    
